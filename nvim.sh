@@ -2,7 +2,7 @@ nvim_install() {
 	extract="nvim-linux64.tar.gz"
 	extracted="nvim-linux64"
 	command="nvim"
-	#path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+	bin_path="/usr/bin"
 	path=$( cd $(dirname $0); pwd)
 	echo $path "is the path of executed file"
 
@@ -15,16 +15,16 @@ nvim_install() {
 	tar xzvf $path/$extract -C $path
 	chmod +x $path/$extracted/bin/$command
 
-	if [ -f /usr/bin/$command ]; then
-		rm /usr/bin/$command
-		echo "/usr/bin/"$command" removed"
+	if [ -f $bin_path/$command ]; then
+		sudo rm $bin_path/$command
+		echo $bin_path/$command" removed"
 	fi
 
-	sudo ln -s $path/$extracted/bin/$command /usr/bin/$command
-	rm $extract
-	rm -r $extracted
-
-#   cp $path/nvim_paste /root/.config/nvim/nvim_paste
+	# sudo ln -s $path/$extracted/bin/$command $bin_path/$command
+	sudo mv $path/$extracted/bin/$command $bin_path/$command
+	sudo rm -r $path/$extracted $path/$extract
+	# cp $path/nvim_paste /root/.config/nvim/nvim_paste
+	
 }
 nvim_install
 
